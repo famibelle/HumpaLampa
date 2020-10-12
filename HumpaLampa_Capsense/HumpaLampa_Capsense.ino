@@ -19,6 +19,7 @@ Les composants
 #define HEURE 1
 #define MINUTE 1
 #define SECONDE 1
+#define VEILLE 1
 
 SandTimer TouchInterval;
 SandTimer PowerOff;
@@ -54,7 +55,7 @@ void loop() {
   // On introduit un delai de quelques secondes pour eviter que le bagotement entre deeux contacts
   TouchInterval.start(1000);
 
-  PowerOff.start(1000*SECONDE*MINUTE*3*HEURE); // Au bout de 3h on eteind tout
+  PowerOff.start(1000*SECONDE*MINUTE*HEURE * VEILLE); // Au bout de 3h on éteint tout
   
   // détection de la valeur de la pinoche connectée à la feuille d'aluminium
   long sensorValue = capSensor.capacitiveSensor(30);
@@ -68,8 +69,9 @@ void loop() {
     // turn the LED on
     // digitalWrite(ledPin, HIGH);
     if (TouchInterval.finished()) {
-      contact = !contact;}
-      
+      contact = !contact;
+      } 
+    PowerOff.startOver();
     Serial.println("Contact");
   }
   // if it's lower than the threshold
